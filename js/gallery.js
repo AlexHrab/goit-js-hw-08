@@ -73,7 +73,7 @@ function imageString(image){
       <img
         class="gallery-image"
         src="${image.preview}"
-        data-source="large-image.jpg"
+        data-source="${image.original}"
         alt="${image.description}"
       />
     </a>
@@ -89,8 +89,10 @@ rendering(images)
 ourGallery.addEventListener("click", event => {
   event.preventDefault()
   if(event.target === event.currentTarget){return}
+  if(!event.target.closest("img").classList.contains("gallery-image")){return}
   
   const img = event.target.closest("img")
+  
   const alt = img.getAttribute("alt")
 
   const objekt = images.find(item => item.description === alt)
@@ -108,6 +110,6 @@ modal.show()
 function closeUp(event){
 if(event.code!=="Escape") return;
 modal.close()
+window.removeEventListener("keydown", closeUp)
 }
 })
-window.removeEventListener("keydown", closeUp)
